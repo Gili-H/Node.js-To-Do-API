@@ -1,30 +1,20 @@
-import express from 'express' 
-import cors from "cors"
-import bodyParser from "body-parser";
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import jwt from "jsonwebtoken";
 
-import TasksController from "./Controllers/TasksController.js";
+import TasksRouter from './Routers/TaskRouter.js';
 
-const app = express()
+const app = express();
+const port = 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.text());
-const port = 3000
 
-app.get("/tasks", TasksController.getList);
-app.get("/tasks/:id", TasksController.getById);
+// שימוש בראוטר המרכזי למשימות
+app.use('/tasks', TasksRouter); // כל הנתיבים שמתחילים ב- /tasks יעברו ל-TasksRouter
 
-app.post("/tasks/",(req,res)=>{
-  res.send("add a new task");
-})
-
-app.put("/tasks/:id",(req,res)=>{
-  res.send("update a task");
-})
-
-app.delete("/tasks/:id",(req,res)=>{
-  res.send("delete a task");
-})
 app.listen(port, () => {
-  console.log(`Example app listening on http://localhost:${port}`)
-})
+  console.log(`Example app listening on http://localhost:${port}`);
+});
