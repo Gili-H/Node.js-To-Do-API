@@ -1,14 +1,18 @@
 import express from 'express' 
 import cors from "cors"
+import bodyParser from "body-parser";
+
+import TasksController from "./Controllers/TasksController.js";
 
 const app = express()
 
 app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.text());
 const port = 3000
 
-app.get("/tasks/:id",(req,res)=>{
-  res.send("get task by id");
-})
+app.get("/tasks", TasksController.getList);
+app.get("/tasks/:id", TasksController.getById);
 
 app.post("/tasks/",(req,res)=>{
   res.send("add a new task");
